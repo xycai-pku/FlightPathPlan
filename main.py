@@ -76,7 +76,7 @@ def draw(border):
                              [0, 1, -b_],
                              [0, 0, 1]])
 
-    draw_point.append(point_set[point_index])  # 起始点
+    #draw_point.append(point_set[point_index])  # 起始点
     now_point = point_set[point_index]
     x_pos = y_pos = 1  # 方向
     if point_set[point_index + 1][0] < point_set[point_index][0]:
@@ -107,6 +107,8 @@ def draw(border):
         point_set[i] = pointTrans(point_set[i], np.linalg.inv(trans_matrix).dot(np.linalg.inv(rotation_matrix)))
     for i in range(0, len(draw_point)):
         draw_point[i] = pointTrans(draw_point[i], np.linalg.inv(trans_matrix).dot(np.linalg.inv(rotation_matrix)))
+
+    draw_point.insert(0,np.array([a_,b_]))
 
     return draw_point
 
