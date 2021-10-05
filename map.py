@@ -24,6 +24,16 @@ def resp():
     print(lat,lon)
     return  response
 
+@app.route('/draw')
+def resp_draw():
+    response = make_response('sucess')
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET'
+    response.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
+
+    print("begin draw")
+    return  response
+
 if __name__ == '__main__':
     app.debug = True
     app.run()

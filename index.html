@@ -38,7 +38,9 @@
             <div class="folium-map" id="map_76568c4c7a6b4488b52be8f789e8052d" ></div>
         
 </body>
-<script>    
+<script>
+
+            var coord = new Array()
     
             var map_76568c4c7a6b4488b52be8f789e8052d = L.map(
                 "map_76568c4c7a6b4488b52be8f789e8052d",
@@ -98,6 +100,7 @@
 
 
             map_76568c4c7a6b4488b52be8f789e8052d.on('click', function(e) {
+                coord.push([e.latlng.lat, e.latlng.lng]);
                 var marker_0feb5569fae943c198c7663be67f8378 = L.marker(
                 [e.latlng.lat, e.latlng.lng],
                 {}
@@ -109,6 +112,35 @@
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("GET","http://127.0.0.1:5000/get_pointer?point=" + e.latlng.lat + ',' + e.latlng.lng,true);
         xmlhttp.send();
+        });
+
+        map_76568c4c7a6b4488b52be8f789e8052d.on('click', function(e) {
+        console.log([coord[coord.length-1][0],coord[coord.length-1][1]]);
+        if (coord.length > 1)
+        {
+
+        var poly_line_76568c4c7a6b4488b52be8f789e8052d = L.polyline(
+                [[coord[coord.length-2][0],coord[coord.length-2][1]], [e.latlng.lat, e.latlng.lng]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_76568c4c7a6b4488b52be8f789e8052d);
+
+            }
+        });
+
+        map_76568c4c7a6b4488b52be8f789e8052d.on('dblclick', function(e) {
+        console.log([coord[coord.length-1][0],coord[coord.length-1][1]]);
+        if (coord.length > 1)
+        {
+
+        var poly_line_76568c4c7a6b4488b52be8f789e8052d = L.polyline(
+                [[coord[0][0],coord[0][1]], [e.latlng.lat, e.latlng.lng]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_76568c4c7a6b4488b52be8f789e8052d);
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET","http://127.0.0.1:5000/draw?point=" + e.latlng.lat + ',' + e.latlng.lng,true);
+        xmlhttp.send();
+            }
         });
 
 </script>
