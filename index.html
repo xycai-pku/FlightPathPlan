@@ -23,7 +23,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_2fdd2fd6ac14423ebea014554dcc8af4 {
+                #map_76568c4c7a6b4488b52be8f789e8052d {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -35,17 +35,17 @@
 </head>
 <body>    
     
-            <div class="folium-map" id="map_2fdd2fd6ac14423ebea014554dcc8af4" ></div>
+            <div class="folium-map" id="map_76568c4c7a6b4488b52be8f789e8052d" ></div>
         
 </body>
 <script>    
     
-            var map_2fdd2fd6ac14423ebea014554dcc8af4 = L.map(
-                "map_2fdd2fd6ac14423ebea014554dcc8af4",
+            var map_76568c4c7a6b4488b52be8f789e8052d = L.map(
+                "map_76568c4c7a6b4488b52be8f789e8052d",
                 {
-                    center: [45.5236, -122.675],
+                    center: [40.0, 116.0],
                     crs: L.CRS.EPSG3857,
-                    zoom: 10,
+                    zoom: 13,
                     zoomControl: true,
                     preferCanvas: false,
                 }
@@ -55,20 +55,60 @@
 
         
     
-            var tile_layer_289ca9df5e8a47e0b87e7f7e7365db53 = L.tileLayer(
+            var tile_layer_ed39ac9d80954f8691391c0c2e282312 = L.tileLayer(
                 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_2fdd2fd6ac14423ebea014554dcc8af4);
+            ).addTo(map_76568c4c7a6b4488b52be8f789e8052d);
         
     
-                var lat_lng_popup_b1fdf9a61dee4a6d863fbe4078c9f060 = L.popup();
+            var marker_0feb5569fae943c198c7663be67f8378 = L.marker(
+                [39.95, 115.33],
+                {}
+            ).addTo(map_76568c4c7a6b4488b52be8f789e8052d);
+        
+    
+            var icon_29df1ab559fa4657b844b5fdd0241898 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "cloud", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_0feb5569fae943c198c7663be67f8378.setIcon(icon_29df1ab559fa4657b844b5fdd0241898);
+        
+    
+        var popup_01f822fcd35b4d08b0660d593610c243 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_7cd7535d54934692b4370f981d383526 = $(`<div id="html_7cd7535d54934692b4370f981d383526" style="width: 100.0%; height: 100.0%;">Mt. Hood Meadows</div>`)[0];
+            popup_01f822fcd35b4d08b0660d593610c243.setContent(html_7cd7535d54934692b4370f981d383526);
+        
+
+        marker_0feb5569fae943c198c7663be67f8378.bindPopup(popup_01f822fcd35b4d08b0660d593610c243)
+        ;
+
+        
+    
+    
+                var lat_lng_popup_86fb872330b144f58458f064364cfa68 = L.popup();
                 function latLngPop(e) {
-                    lat_lng_popup_b1fdf9a61dee4a6d863fbe4078c9f060
+                    lat_lng_popup_86fb872330b144f58458f064364cfa68
                         .setLatLng(e.latlng)
                         .setContent("Latitude: " + e.latlng.lat.toFixed(4) +
                                     "<br>Longitude: " + e.latlng.lng.toFixed(4))
-                        .openOn(map_2fdd2fd6ac14423ebea014554dcc8af4);
+                        .openOn(map_76568c4c7a6b4488b52be8f789e8052d);
                     }
-                map_2fdd2fd6ac14423ebea014554dcc8af4.on('click', latLngPop);
-            
+                map_76568c4c7a6b4488b52be8f789e8052d.on('click', latLngPop);
+
+
+            map_76568c4c7a6b4488b52be8f789e8052d.on('click', function(e) {
+                var marker_0feb5569fae943c198c7663be67f8378 = L.marker(
+                [e.latlng.lat, e.latlng.lng],
+                {}
+            ).addTo(map_76568c4c7a6b4488b52be8f789e8052d);
+            });
+
+            //为地图注册click事件获取鼠标点击出的经纬度坐标
+            map_76568c4c7a6b4488b52be8f789e8052d.on('click', function(e) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET","http://127.0.0.1:5000/get_pointer?point=" + e.latlng.lat + ',' + e.latlng.lng,true);
+        xmlhttp.send();
+        });
+
 </script>
