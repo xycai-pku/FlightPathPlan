@@ -74,7 +74,7 @@ def resp_draw():
     m.save("test_draw.html")
     webbrowser.open("test_draw.html")
 
-    return response
+    return m._repr_html_()
 
 if __name__ == '__main__':
     app.debug = True
