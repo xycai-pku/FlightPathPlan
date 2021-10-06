@@ -30,7 +30,7 @@ def pointTrans(point, M):
 def draw(border):
 
     border = np.array(border)
-    print(border)
+    #print(border)
     px = 300
     py = 200
 

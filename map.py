@@ -1,9 +1,10 @@
 import folium
-from flask import Flask,request,make_response
+from flask import Flask,request,make_response,redirect,send_file,render_template,send_from_directory,url_for
 import pyproj
 from main import draw
 import numpy as np
 import webbrowser
+import cv2
 
 app = Flask(__name__)
 
@@ -20,6 +21,10 @@ pre_points = []  #原边界点
 # m.add_child(folium.LatLngPopup())
 # m.save("index.html")
 
+@app.route('/')
+def base():
+    return app.send_static_file("index.html")
+
 @app.route('/get_pointer')
 def resp():
     response = make_response('sucess')
@@ -30,7 +35,7 @@ def resp():
     lat = float(point[0])
     lng = float(point[1])
 
-    print(proj(lng,lat))
+    #print(proj(lng,lat))
     points.append(np.array(proj(lng,lat)))
 
     pre_points.append([lat,lng])
@@ -38,13 +43,20 @@ def resp():
 
 @app.route('/draw')
 def resp_draw():
-    response = make_response('sucess')
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Methods'] = 'GET'
-    response.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
+    response = make_response('success')
+    # response.headers['Access-Control-Allow-Origin'] = '*'
+    # response.headers['Access-Control-Allow-Methods'] = 'GET'
+    # response.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
 
     draw_points = draw(points)
-    m = folium.Map(location=[40,116],zoom_start=13,)
+
+    x = y = 0
+    for i in points:
+        x += i[0]
+        y += i[1]
+    p = proj(x/len(points),y/len(points),inverse = True)
+
+    m = folium.Map(location=[p[1],p[0]],zoom_start=13,)
 
     for j in range(0,len(pre_points)-1):
         folium.PolyLine(
@@ -73,8 +85,9 @@ def resp_draw():
 
     m.save("test_draw.html")
     webbrowser.open("test_draw.html")
+    return response
 
-    return m._repr_html_()
+
 
 if __name__ == '__main__':
     app.debug = True
