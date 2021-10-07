@@ -56,7 +56,7 @@ def resp_draw():
         y += i[1]
     p = proj(x/len(points),y/len(points),inverse = True)
 
-    m = folium.Map(location=[p[1],p[0]],zoom_start=13,)
+    m = folium.Map(location=[p[1],p[0]],zoom_start=13)
 
     for j in range(0,len(pre_points)-1):
         folium.PolyLine(

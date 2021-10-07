@@ -10,14 +10,30 @@ def angle(point_1, point_2):
     return atan2(point_2[1] - point_1[1], point_2[0] - point_1[0])
 
 
-def ifjoin(point, cnt):
+def ifjoin(point, cnt,px,py):
     '''
     待补充函数
     :param point: 点
     :param cnt: 多边形点
     :return: 以该点为中心的矩阵是否与该多边形有重叠区域
     '''
-    pass
+    if cv2.pointPolygonTest(np.array(cnt, np.int32), (int(point[0]), int(point[1])),
+                            False) >= 0:
+        return True
+    if cv2.pointPolygonTest(np.array(cnt, np.int32), (int(point[0] - px), int(point[1] - py)),
+                            False) >= 0:
+        return True
+    if cv2.pointPolygonTest(np.array(cnt, np.int32), (int(point[0] - px), int(point[1] + py)),
+                            False) >= 0:
+        return True
+    if cv2.pointPolygonTest(np.array(cnt, np.int32), (int(point[0] + px), int(point[1] - py)),
+                            False) >= 0:
+        return True
+    if cv2.pointPolygonTest(np.array(cnt, np.int32), (int(point[0] + px), int(point[1] + py)),
+                            False) >= 0:
+        return True
+    return False
+
 
 
 def pointTrans(point, M):
@@ -31,8 +47,11 @@ def draw(border):
 
     border = np.array(border)
     #print(border)
-    px = 300
-    py = 200
+    px = 150
+    py = 320
+
+    px_ = 250
+    py_ = 200
 
     point_index = 0  # 旋转边下标
     omega = 0  # 旋转角度
@@ -89,15 +108,13 @@ def draw(border):
         now_point = now_point + [x_pos * px, 0]
         # 是否换成四个角,即用栅格相交
 
-        if cv2.pointPolygonTest(np.array(point_set, np.int32), (int(now_point[0]),int(now_point[1])),
-                                False) >= 0:
+        if ifjoin(now_point,point_set,px_,py_):
             draw_point.append(now_point)
 
         if now_point[0] > max_coord[0] or now_point[0] < min_coord[0]:  # x方向上越界
             x_pos *= -1
             now_point = now_point + [0, y_pos * py]
-            if cv2.pointPolygonTest(np.array(point_set, np.int32), (int(now_point[0]),int(now_point[1])),
-                                    False) >= 0:
+            if ifjoin(now_point,point_set,px_,py_):
                 draw_point.append(now_point)
 
         if abs(now_point[1]) > abs(min_coord[1]) and abs(now_point[0]) > max_coord[1]:
